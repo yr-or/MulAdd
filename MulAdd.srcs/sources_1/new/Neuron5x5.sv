@@ -1,0 +1,81 @@
+/*
+    Call combinational MulAcc5 5 times to perform calculation
+    Add bias and activation function
+    To Do:
+    - Hardcode weight values
+*/
+
+module Neuron5x5 #(parameter BIT_WIDTH=8,
+                   parameter NUM_INP=25
+    )(
+        input clk,
+        input reset,
+        input logic signed [BIT_WIDTH-1:0] data_in [0:4][0:4],
+        input logic signed [BIT_WIDTH-1:0] weights [0:4][0:4],
+        output logic signed [18:0] result,
+        output done
+    );
+    
+    // Registers
+    logic signed [18:0] acc = 22'd0;
+    logic signed [BIT_WIDTH-1:0] data_in_ff [0:4][0:4];
+    logic signed [BIT_WIDTH-1:0] weights_ff [0:4][0:4];
+    logic signed [BIT_WIDTH-1:0] data_in_chunk [0:4];
+    logic signed [BIT_WIDTH-1:0] weights_chunk [0:4];
+    // Wires
+    logic signed [18:0] result_part;
+    
+    // Register inputs
+    always @(posedge clk) begin
+        data_in_ff <= data_in;
+        weights_ff <= weights;
+    end
+    
+    // Instantiate MulAcc5 and connect to input regs
+    MulAcc5 mac(
+        .clk        (clk),
+        .reset      (reset),
+        .data_in    (data_in_chunk),
+        .weights    (weights_chunk),
+        .result     (result_part)
+    );
+    
+    reg [7:0] count_ff = 8'b0;
+    reg done_ff = 1'b0;
+    reg reset_ff = 1'b0;
+    reg data_ready = 1'b0;
+    
+    always @(posedge clk) begin
+        if (count_ff > 1)
+            data_ready = 1'b1;
+    end
+    
+    // Sequential logic to call MulAcc 5 times
+    always @(posedge clk) begin
+        // Reset logic
+        if (reset) begin
+            acc <= 18'd0;
+            data_in_chunk <= data_in_ff[0];
+            weights_chunk <= weights_ff[0];
+            data_ready = 1'b0;
+        end else begin  // not in reset
+            if (~done_ff) begin
+                if (count_ff < 8'd5) begin
+                    data_in_chunk <= data_in_ff[count_ff];
+                    weights_chunk <= weights_ff[count_ff];
+                    $display("acc: %d, result_part: %d", acc, result_part);
+                    acc <= acc + result_part;
+                    $display("acc: %d", acc);
+                    count_ff <= count_ff + 8'b1;
+                end else begin
+                    acc <= acc + result_part;
+                    done_ff <= 1'b1;
+                end
+            end
+        end
+    end
+    
+    assign done = done_ff;
+    assign result = acc;
+
+endmodule
