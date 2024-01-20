@@ -38,14 +38,6 @@ module MulAcc5 #(parameter BIT_WIDTH = 8,
         sum3_1 = sum2_1 + inp_mul[4];
     end
     
-    // Register output
-    always @(posedge clk) begin
-        if (reset) begin
-            result_ff <= 18'd0;
-        end else
-            result_ff <= sum3_1;
-    end
-    
-    assign result = result_ff;
+    assign result = sum3_1;
     
 endmodule

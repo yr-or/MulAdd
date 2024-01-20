@@ -51,21 +51,21 @@ module Neuron5x5 #(parameter BIT_WIDTH=8,
     end
     
     // Sequential logic to call MulAcc 5 times
-    always @(posedge clk) begin
-        // Reset logic
+    always @(posedge clk or posedge reset) begin
+        // Asynchronous Reset logic
         if (reset) begin
             acc <= 18'd0;
-            data_in_chunk <= data_in_ff[0];
-            weights_chunk <= weights_ff[0];
+            data_in_chunk <= '{0, 0, 0, 0, 0};
+            weights_chunk <= '{0, 0, 0, 0, 0};
             data_ready = 1'b0;
+            done_ff = 1'b0;
+            count_ff = 1'b0;
         end else begin  // not in reset
             if (~done_ff) begin
                 if (count_ff < 8'd5) begin
                     data_in_chunk <= data_in_ff[count_ff];
                     weights_chunk <= weights_ff[count_ff];
-                    $display("acc: %d, result_part: %d", acc, result_part);
                     acc <= acc + result_part;
-                    $display("acc: %d", acc);
                     count_ff <= count_ff + 8'b1;
                 end else begin
                     acc <= acc + result_part;
