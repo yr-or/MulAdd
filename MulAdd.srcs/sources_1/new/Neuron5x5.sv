@@ -17,7 +17,7 @@ module Neuron5x5 #(parameter BIT_WIDTH=8,
     );
     
     // Registers
-    logic signed [18:0] acc = 22'd0;
+    logic signed [18:0] acc = 18'd0;
     logic signed [BIT_WIDTH-1:0] data_in_ff [0:4][0:4];
     logic signed [BIT_WIDTH-1:0] weights_ff [0:4][0:4];
     logic signed [BIT_WIDTH-1:0] data_in_chunk [0:4];

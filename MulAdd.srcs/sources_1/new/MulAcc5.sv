@@ -12,8 +12,6 @@ module MulAcc5 #(parameter BIT_WIDTH = 8,
     // Registers
     // Wires
     logic signed [15:0] inp_mul [0:NUM_VALS-1];
-    // Registers
-    logic signed [18:0] result_ff;
     
     
     // Multiply values
