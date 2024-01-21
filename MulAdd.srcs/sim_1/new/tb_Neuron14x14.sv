@@ -9,8 +9,6 @@ localparam signed [7:0] W_ARRAY_RAND [0:195] = '{14, -34, 106, 124, -38, -53, 88
 localparam signed [7:0] test_data_rand [0:195] = '{10, -25, 113, -80, 104, 109, 50, -123, -115, 17, -113, 85, 125, -80, 26, -106, 6, 20, 65, 86, -51, 97, 89, 112, -121, -119, 38, 48, -117, -96, -21, 32, 119, -34, 104, -73, 15, 111, 66, 106, 26, -95, -118, -14, 84, -25, -66, -32, -67, -60, 40, -40, 97, -109, -105, -98, 13, -19, 54, -114, -122, -109, -87, 62, 49, -106, 69, 37, 39, 118, -108, -21, 103, 107, -112, -9, -88, 99, -10, -52, -48, -50, -83, 51, 73, 25, 23, -5, 7, 36, 117, -8, -23, 12, -70, -65, 68, 95, -34, 30, 55, -112, 49, 48, 0, -38, -22, -44, 40, 1, -84, 49, -9, -102, 116, 114, -54, 51, 20, -30, -120, 57, 51, -51, -75, -66, 39, 31, -14, 76, 19, -93, -43, 80, -22, 113, -21, -93, -68, -86, 82, 2, -76, 10, -109, 7, -96, -100, -45, 0, -125, -95, -105, 112, -101, -90, -110, 79, 64, 88, 78, 64, -42, 102, 72, -125, -22, -45, 96, 108, 30, -127, -93, 107, -114, 3, -36, 45, 117, 47, 46, 28, 37, -22, -50, 117, 11, 74, -97, -52, -50, -122, 35, 28, 55, -126};
 
 
-    logic signed [7:0] data_in_chunk_tb [0:13][0:13];
-    logic signed [7:0] weights_chunk_tb [0:13][0:13];
     logic signed [19:0] result_tb;
     reg clk_tb = 1'b0;
     reg reset_tb = 1'b0;
@@ -20,8 +18,8 @@ localparam signed [7:0] test_data_rand [0:195] = '{10, -25, 113, -80, 104, 109, 
     Neuron14x14 #(.BIT_WIDTH(8), .NUM_INP(196)) dut(
         .clk                (clk_tb),
         .reset              (reset_tb),
-        .data_in            (data_in_chunk_tb),
-        .weights            (weights_chunk_tb),
+        .data_in            (test_data_rand),
+        .weights            (W_ARRAY_RAND),
         .result             (result_tb),
         .done               (done_tb)
     );
@@ -35,36 +33,6 @@ localparam signed [7:0] test_data_rand [0:195] = '{10, -25, 113, -80, 104, 109, 
     initial begin
         // Initial reset
         reset_tb = 1'b1;
-        // Input data
-        data_in_chunk_tb[0] = test_data_rand[0:13];
-        data_in_chunk_tb[1] = test_data_rand[14:27];
-        data_in_chunk_tb[2] = test_data_rand[28:41];
-        data_in_chunk_tb[3] = test_data_rand[42:55];
-        data_in_chunk_tb[4] = test_data_rand[56:69];
-        data_in_chunk_tb[5] = test_data_rand[70:83];
-        data_in_chunk_tb[6] = test_data_rand[84:97];
-        data_in_chunk_tb[7] = test_data_rand[98:111];
-        data_in_chunk_tb[8] = test_data_rand[112:125];
-        data_in_chunk_tb[9] = test_data_rand[126:139];
-        data_in_chunk_tb[10] = test_data_rand[140:153];
-        data_in_chunk_tb[11] = test_data_rand[154:167];
-        data_in_chunk_tb[12] = test_data_rand[168:181];
-        data_in_chunk_tb[13] = test_data_rand[182:195];
-        // Weights
-        weights_chunk_tb[0] = W_ARRAY_RAND[0:13];
-        weights_chunk_tb[1] = W_ARRAY_RAND[14:27];
-        weights_chunk_tb[2] = W_ARRAY_RAND[28:41];
-        weights_chunk_tb[3] = W_ARRAY_RAND[42:55];
-        weights_chunk_tb[4] = W_ARRAY_RAND[56:69];
-        weights_chunk_tb[5] = W_ARRAY_RAND[70:83];
-        weights_chunk_tb[6] = W_ARRAY_RAND[84:97];
-        weights_chunk_tb[7] = W_ARRAY_RAND[98:111];
-        weights_chunk_tb[8] = W_ARRAY_RAND[112:125];
-        weights_chunk_tb[9] = W_ARRAY_RAND[126:139];
-        weights_chunk_tb[10] = W_ARRAY_RAND[140:153];
-        weights_chunk_tb[11] = W_ARRAY_RAND[154:167];
-        weights_chunk_tb[12] = W_ARRAY_RAND[168:181];
-        weights_chunk_tb[13] = W_ARRAY_RAND[182:195];
         #60;
         reset_tb = 1'b0;
         #400;
