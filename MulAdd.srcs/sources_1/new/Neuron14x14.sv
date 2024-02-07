@@ -1,8 +1,7 @@
 /*
-    Call combinational MulAcc5 5 times to perform calculation
-    Add bias and activation function
-    To Do:
-    - Hardcode weight values
+    TODO:
+    - Take input serially:
+    - Use shift register and status register
 */
 
 module Neuron14x14 #(parameter BIT_WIDTH=8,
