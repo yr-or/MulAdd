@@ -15,7 +15,7 @@ logic signed [7:0] B_ARRAY_L2 [0:31] = '{ 9, 31, 9, -25, 2, -12, 16, 16, -4, 12,
     wire done_tb;
 
     // Instantiate DUT
-    Neuron14x14 #(.BIT_WIDTH(8), .NUM_INP(196)) dut(
+    Neuron28x7 #(.BIT_WIDTH(8), .NUM_INP(196)) dut(
         .clk                (clk_tb),
         .reset              (reset_tb),
         .data_in            (test_data_c),
@@ -36,7 +36,7 @@ logic signed [7:0] B_ARRAY_L2 [0:31] = '{ 9, 31, 9, -25, 2, -12, 16, 16, -4, 12,
         reset_tb = 1'b1;
         #60;
         reset_tb = 1'b0;
-        #400;
+        #600;
     end
 
 endmodule

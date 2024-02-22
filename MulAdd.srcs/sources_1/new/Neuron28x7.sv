@@ -1,4 +1,3 @@
-
 // 28 clk cycles on 7 chunks of data
 
 module Neuron28x7 #(parameter BIT_WIDTH=8,

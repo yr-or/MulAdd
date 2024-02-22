@@ -1,0 +1,1 @@
+create_clock -add -name clk_pin -period 20.00 -waveform {0 10} [get_ports { clk }];
